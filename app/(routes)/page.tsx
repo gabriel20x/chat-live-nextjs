@@ -1,18 +1,27 @@
 'use client'
 
-import Image from 'next/image'
-import {useGetAllMessagesQuery} from "@/api/messages-api";
-import Button from "@/app/_components/Button";
+import tw, {styled} from "twin.macro";
+import WhiteContainer from "@/app/_desing-system/WhiteContainer";
+import LoginForm from "@/app/_components/LoginForm";
+
+const StyledMain = styled.main(() => [
+    tw`min-h-screen h-screen flex items-center justify-center p-16 bg-neutral-950 text-white`
+])
+
+const StyledContent = styled.div(() => [
+    tw`h-max w-full flex items-center justify-center gap-20`
+])
 
 export default function Home() {
 
-    // al llamar el hook, se realiza la petición, esta se mantendra en cache, por lo que si la peticion es la misma, no se realizara de nuevo.
-    const {data, isLoading, isSuccess, refetch} = useGetAllMessagesQuery()
-
     return (
-            <main className="flex min-h-screen flex-col items-center justify-between p-24">
-                <Button/>
-            </main>
+        <StyledMain>
+            <StyledContent>
+                <WhiteContainer>
+                    <LoginForm/>
+                </WhiteContainer>
+            </StyledContent>
+        </StyledMain>
     )
 }
 
