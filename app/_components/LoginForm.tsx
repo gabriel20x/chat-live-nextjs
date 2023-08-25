@@ -37,7 +37,6 @@ function LoginForm() {
     // TODO: on success, redirect to chat room
     useEffect(() => {
         if(data?.access_token) {
-            console.log(data)
             setAccessToken(data)
             router.push('/chat_room')
         }

@@ -49,16 +49,15 @@ export const messageApi = createApi({
                     });
 
                     await cacheEntryRemoved;
-
-                    socket.off(ChatEvents.newMessage);
+                    // cacheEntryRemoved will resolve when the cache subscription is no longer active
+                    // perform cleanup steps once the `cacheEntryRemoved` promise resolves
+                    socket.offAnyOutgoing();
+                    socket.disconnect()
+                    socket.close()
                 } catch {
                     // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
                     // in which case `cacheDataLoaded` will throw
                 }
-                // cacheEntryRemoved will resolve when the cache subscription is no longer active
-                await cacheEntryRemoved;
-                // perform cleanup steps once the `cacheEntryRemoved` promise resolves
-                // ws.close();
             },
         }),
         getConnectedUsers: builder.query<string[], void>({
@@ -96,25 +95,49 @@ export const messageApi = createApi({
                     });
 
                     await cacheEntryRemoved;
+                    // cacheEntryRemoved will resolve when the cache subscription is no longer active
+                    // perform cleanup steps once the `cacheEntryRemoved` promise resolves
+                    socket.offAnyOutgoing();
+                    socket.disconnect()
+                    socket.close()
 
-                    socket.off(ChatEvents.usersOnline);
-                    socket.off(ChatEvents.connection);
-                    socket.off(ChatEvents.desconnection);
                 } catch (error) {
                     // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
                     // in which case `cacheDataLoaded` will throw
                     console.log(error)
                 }
-                // cacheEntryRemoved will resolve when the cache subscription is no longer active
-                await cacheEntryRemoved;
-                // perform cleanup steps once the `cacheEntryRemoved` promise resolves
-                // ws.close();
             },
         }),
+        sendMessage: builder.mutation<null, {message:string}>({
+            queryFn: () => ({ data: null }), //
+            // onCacheEntryAdded es el metodo que nos permitirá actualizar los mensajes en el momento en que
+            async onCacheEntryAdded(
+                messageData,
+                { cacheDataLoaded, cacheEntryRemoved }
+            ) {
+                try {
+                    await cacheDataLoaded;
+                    // the /chat-messages endpoint responded already
 
+                    // Definimos el socket
+                    const socket = socketManager.socket('/', { auth: {
+                            Authorization: getAccessToken()
+                        } });
+
+                    socket.emit(ChatEvents.sendMessage, messageData);
+
+
+                    await cacheEntryRemoved;
+
+                } catch {
+                    // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
+                    // in which case `cacheDataLoaded` will throw
+                }
+            },
+        }),
     }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAllMessagesQuery, useGetConnectedUsersQuery } = messageApi
+export const { useGetAllMessagesQuery, useGetConnectedUsersQuery, useSendMessageMutation } = messageApi

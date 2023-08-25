@@ -147,10 +147,32 @@ export const messageApi = createApi({
 // auto-generated based on the defined endpoints
 export const {  } = messageApi
 ~~~
+Primero instalemos las dependencias de socket io
+
+Vamos a crear un Manager ya que vamos a necesitar varias instancias de una misma conexion.
 
 Debemos ahora construir el metodo getAllMessajes, en el no solo vamos a obtener el historial de mensajes, si no que tambien debemos de subscribirnos al websocket de nuestro backend.
 Para ello debemos seguir algunos pasos que nos da la siguiente [documentacion](https://redux-toolkit.js.org/rtk-query/usage/streaming-updates#when-to-use-streaming-updates) y revisar el ejemplo de Websocket Chat Api.
 
-Primero instalemos las dependencias de socket io
+Lo mas importante es el onCacheEntryAdded, es donde nuestro estado podra actualizarse en el momento en que un evento se reciba.
+Establemecemos las conexiones a los eventos
+
+Haremos una queryFn vacia sin peticion inicial, para obtener un cache de los usuarios conectados.
+Establecemos las conexiones a los eventos necesarios.
+
+Algo muy importante, todas estas peticiones estan protegidas, y solo pueden acceder aquellos usuarios que tengan autorizaciones,
+Por eso debemos agregarle un preheader, para esto haremos uso del servicio de token cookies.
+
+~~~
+  prepareHeaders: async (headers) => {
+      const USER_TOKEN = getAccessToken();
+      if (USER_TOKEN) {
+          headers.set('Authorization', `Bearer ${USER_TOKEN}`);
+      }
+      return headers;
+  },
+~~~
+
+
 
 

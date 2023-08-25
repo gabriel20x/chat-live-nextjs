@@ -3,5 +3,6 @@ export const ChatEvents = {
     desconnection: 'desconnection',
     newMessage: 'new_message',
     error: 'Error',
-    usersOnline: 'users_in_line'
+    usersOnline: 'users_in_line',
+    sendMessage: 'event_message'
 }

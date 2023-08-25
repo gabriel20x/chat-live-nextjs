@@ -6,6 +6,7 @@ import Image from "next/image";
 import Text from "@/app/_desing-system/Text";
 
 type AvatarProps = {
+    key?:string,
     user: Omit<IUser, 'messages'>,
     avatarNumber: number
 }
