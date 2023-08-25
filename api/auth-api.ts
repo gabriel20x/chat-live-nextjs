@@ -9,9 +9,11 @@ export const authApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: `${NEXT_PUBLIC_API_URL}/auth` }),
     endpoints: (builder) => ({
         // Endpoints
+        // TODO: Add Login mutation
     }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
+// TODO: Export all hooks
 export const {  } = authApi

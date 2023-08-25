@@ -5,9 +5,12 @@ const { NEXT_PUBLIC_API_URL } = process.env
 // Define a service using a base URL and expected endpoints
 export const userApi = createApi({
     reducerPath: `userApi`,
+    // TODO: Add Preheaders for authentication.
     baseQuery: fetchBaseQuery({ baseUrl: `${NEXT_PUBLIC_API_URL}/users` }),
     endpoints: (builder) => ({
         // Endpoints
+
+        //  TODO: Define the getAllUsers query
 
     }),
 })

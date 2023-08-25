@@ -5,6 +5,9 @@ const StyledConnectedUsers = styled.div.attrs({role:'connected-users-list'})(() 
     tw`flex flex-col gap-2`
 ])
 
+// TODO: obtener una lista de los usuarios del chat.
+// TODO: Filtrar de esa lista los id de los usuarios que estan conectados.
+
 function ConnectedUsers() {
     return (
         <StyledConnectedUsers>
