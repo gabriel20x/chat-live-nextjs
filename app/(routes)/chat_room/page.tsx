@@ -16,9 +16,6 @@ const StyledContent = styled.div(() => [
 
 export default function ChatRoom() {
 
-    // al llamar el hook, se realiza la petición, esta se mantendra en cache, por lo que si la peticion es la misma, no se realizara de nuevo.
-    // const {data, isLoading, isSuccess, refetch} = useGetAllMessagesQuery()
-
     return (
         <StyledMain>
             <StyledContent>

@@ -42,6 +42,7 @@ export const {nombre de la api} = createApi({
 // auto-generated based on the defined endpoints
 export const {  } = {nombre de la api}
 ~~~
+
 ### Authentication
 
 Dentro de la api de auth, debemos de agregar la configuracion RTK, entonces colocamos el nombre de la api y la ruta base. Quedaria algo asi:
@@ -123,5 +124,33 @@ useEffect(() => {
 }, [isSuccess]);
 ~~~
 
+### Messages
+
+Dentro de la api de mensajes debemos agregar la configuracion de RTK.
+
+~~~ts
+// Need to use the React-specific entry point to import createApi
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+const { NEXT_PUBLIC_API_URL } = process.env
+// Define a service using a base URL and expected endpoints
+export const messageApi = createApi({
+    reducerPath: `messageApi`,
+    baseQuery: fetchBaseQuery({ baseUrl: `${NEXT_PUBLIC_API_URL}/messages` }),
+    endpoints: (builder) => ({
+        // Endpoints
+
+    }),
+})
+
+// Export hooks for usage in functional components, which are
+// auto-generated based on the defined endpoints
+export const {  } = messageApi
+~~~
+
+Debemos ahora construir el metodo getAllMessajes, en el no solo vamos a obtener el historial de mensajes, si no que tambien debemos de subscribirnos al websocket de nuestro backend.
+Para ello debemos seguir algunos pasos que nos da la siguiente [documentacion](https://redux-toolkit.js.org/rtk-query/usage/streaming-updates#when-to-use-streaming-updates) y revisar el ejemplo de Websocket Chat Api.
+
+Primero instalemos las dependencias de socket io
 
 
