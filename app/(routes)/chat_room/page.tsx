@@ -9,6 +9,7 @@ import Button from "@/app/_desing-system/Button";
 import {getAccessToken, removeAccessToken} from "@/lib/auth-token-cookies/authTokenCookies";
 import {useRouter} from "next/navigation";
 import {useEffect} from "react";
+import {socketManager} from "@/api/messages-api";
 
 const StyledMain = styled.main(() => [
     tw`min-h-screen h-screen p-16 bg-neutral-950 text-white`
@@ -23,6 +24,10 @@ export default function ChatRoom() {
 
     // TODO: Deslogear al usuario borrando el token y redirigir al inicio
     const logout = () => {
+        const socket = socketManager.socket('/', { auth: {
+                Authorization: getAccessToken()
+            } });
+        socket.disconnect()
         removeAccessToken()
         router.push('/')
     }

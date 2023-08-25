@@ -9,7 +9,7 @@ const { NEXT_PUBLIC_API_URL } = process.env
 
 
 // Definimos el socket
-const socketManager = new Manager(NEXT_PUBLIC_API_URL as string);
+export const socketManager = new Manager(NEXT_PUBLIC_API_URL as string);
 
 // Define a service using a base URL and expected endpoints
 export const messageApi = createApi({
